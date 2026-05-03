@@ -3,21 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Tracker</title>
+    <title>tugas Tracker</title>
     <link rel="stylesheet" href="<?= base_url('css/output.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
     <script>
         window.APP_CONFIG = {
             baseUrl: "<?= base_url() ?>"
         };
+        window.flashData = {
+            created: "<?= session('created') ?>",
+            updated: "<?= session('updated') ?>",
+            deleted: "<?= session('deleted') ?>"
+        };
     </script>
     <script src="<?= base_url('tinymce/tinymce.min.js') ?>" referrerpolicy="origin" crossorigin="anonymous"></script>
 </head>
 <body class="bg-slate-950 text-white flex flex-row justify-between">
         <!-- <h1 class="text-2xl font-bold ml-5 py-10">Tambah Tugas</h1> -->
-    <form action="#" method="POST" class="w-1/3 h-screen p-10 flex flex-col sticky top-0">
+    <form action="<?= base_url('create') ?>" method="POST" class="w-1/3 h-screen p-10 flex flex-col sticky top-0">
         <div class="mb-5">
-            <label for="tugas" class="block mb-2 text-md font-medium">Judul Tugas</label>
+            <label for="tugas" class="block mb-2 text-md font-medium">Tugas</label>
             <input type="text" id="tugas" name="tugas" onchange="saveDraft()" class="w-full p-2 border bg-gray-800 border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-lime-300">
         </div>
         <div class="mb-5 grow flex flex-col">
@@ -42,29 +47,40 @@
             <th class="pr-2 text-right">Aksi</th>
         </thead>
         <tbody class="bg-slate-900 border-b border-gray-700">
-            <tr id="tugas_1" class="border-t border-gray-700">
-                <td id="no_1" class="p-5 text-center w-px">1</td>
-                <td id="tugas_1" class="p-5">Proyek A</td>
-                <td id="waktu_1" class="p-5">22:05 15/05/2026</td>
-                <td id="status_1" class="p-5">Belum Selesai</td>
+
+            <?php foreach($tugas as $task => $t): ?>
+            <tr id="tugas_<?= $task ?>" class="border-t border-gray-700">
+                <td id="no_<?= $task ?>" class="p-5 text-center w-px <?= $t['status'] == 0 ? '' : 'bg-cyan-300 text-slate-950' ?>"><?= $task + 1 ?></td>
+                <td id="tugas_<?= $task ?>" class="p-5 <?= $t['status'] == 0 ? '' : 'opacity-50' ?>"><?= $t['judul'] ?></td>
+                <td id="waktu_<?= $task ?>" class="p-5 <?= $t['status'] == 0 ? '' : 'opacity-50' ?>"><?= $t['waktu_dibuat'] ?></td>
+                <td id="status_<?= $task ?>" class="p-5 <?= $t['status'] == 0 ? '' : 'opacity-50' ?>"><?= $t['status'] == 0 ? 'Belum Selesai' : 'Selesai' ?></td>
                 <td class="pr-2 text-right">
                     <div>
-                        <button onclick="toggleDescription(1)" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 cursor-pointer">
+                        <button onclick="toggleDescription(<?= $task ?>)" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 cursor-pointer">
                             Deskripsi
                         </button>
-                        <button class="mx-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 cursor-pointer">
-                            Selesai
-                        </button>
-                        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 cursor-pointer">
-                            Hapus
-                        </button>
+                        <form action="<?= base_url('update/' . $t['id']) ?>" method="post" class="inline">
+                            <?= csrf_field() ?>
+                            <input type="hidden" name="_method" value="PUT">
+                            <button type="submit" class="mx-2 <?= $t['status'] == 0 ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-500 hover:bg-gray-600' ?> text-white font-bold py-2 px-4 cursor-pointer">
+                                <?= $t['status'] == 0 ? 'Tandai selesai' : 'Tandai belum' ?>
+                            </button>
+                        </form>
+                        <form action="<?= base_url('delete/' . $t['id']) ?>" method="post" class="inline">
+                            <?= csrf_field() ?>
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button onclick="return confirm('Apakah Anda yakin ingin menghapus tugas ini?');" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 cursor-pointer">
+                                Hapus
+                            </button>
+                        </form>
                     </div>
                 </td>
             </tr>
-            <tr id="deskripsi_1" class="hidden opacity-50">
-                <td class="pl-22 pr-5 pb-5 text-left" colspan="5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex aliquid deleniti, in, porro possimus veritatis ut deserunt placeat perferendis eligendi fugiat delectus voluptatibus, mollitia quod sequi officiis saepe recusandae a.</td>
+            <tr id="deskripsi_<?= $task ?>" class="hidden <?= $t['status'] == 0 ? '' : 'opacity-50' ?>">
+                <td class="pl-22 pr-5 pb-5 text-left" colspan="5"><?= $t['deskripsi'] ?></td>
             </tr>
-    
+            <?php endforeach; ?>
+
         </tbody>
     </table>
     <script src="<?= base_url('js/scripts.js') ?>"></script>

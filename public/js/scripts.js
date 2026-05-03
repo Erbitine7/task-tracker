@@ -50,3 +50,20 @@ function toggleDescription(id) {
   const deskripsi = document.getElementById(`deskripsi_${id}`);
   deskripsi.classList.toggle('hidden');
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  const created = window.flashData.created;
+  const updated = window.flashData.updated;
+  const deleted = window.flashData.deleted;
+
+  if (created) {
+    alert(created);
+    removeDraft();
+  }
+  if (updated) {
+    alert(updated);
+  }
+  if (deleted) {
+    alert(deleted);
+  }
+});
