@@ -7,6 +7,9 @@ tinymce.init({
   license_key: 'gpl',
   setup: (editor) => {
     editor.on('keyup', () => {
+      editor.save();
+    });
+    editor.on('keyup', () => {
       saveDraft();
     });
     editor.on('init', function() {
@@ -26,7 +29,7 @@ tugas.addEventListener('keyup', function() {
 
 function loadDraft() {
   const draft = JSON.parse(localStorage.getItem('draft'));
-  
+
   if (draft) {
     console.log('Draft loaded');
     tugas.value = draft.tugas;

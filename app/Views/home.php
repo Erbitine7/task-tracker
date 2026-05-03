@@ -20,16 +20,18 @@
 </head>
 <body class="bg-slate-950 text-white flex flex-row justify-between">
     <form action="<?= base_url('create') ?>" method="POST" class="w-1/3 h-screen p-10 flex flex-col sticky top-0">
+        <?= csrf_field() ?>
+        <h1 class="text-xl font-bold mb-5">+ Tambah Tugas Baru</h1>
         <div class="mb-5">
-            <label for="tugas" class="block mb-2 text-md font-medium">Tugas</label>
-            <input type="text" id="tugas" name="tugas" onchange="saveDraft()" class="w-full p-2 border bg-slate-900 border-gray-800 focus:outline-none focus:ring-2">
+            <label for="tugas" class="block mb-2 text-md font-medium">Tugas <span class="opacity-50">(Harus diisi)</span></label>
+            <input required type="text" id="tugas" name="tugas" onchange="saveDraft()" class="w-full p-2 border bg-slate-900 border-gray-800 focus:outline-none focus:ring-2">
         </div>
         <div class="mb-5 grow flex flex-col">
-            <label for="deskripsi" class="block mb-2 text-md font-medium">Deskripsi</label>
-            <textarea id="deskripsi" name="deskripsi" onchange="saveDraft()"></textarea>
+            <label for="deskripsi" class="block mb-2 text-md font-medium">Deskripsi <span class="opacity-50">(Harus diisi)</span></label>
+            <textarea required id="deskripsi" name="deskripsi" onchange="saveDraft()"></textarea>
         </div>
         <div class="flex justify-end gap-5">
-            <button type="reset" onclick="removeDraft()" class=" text-red-500 font-bold py-2 px-4 cursor-pointer">
+            <button type="reset" onclick="removeDraft()" class=" text-red-500 font-bold py-2 px-4 cursor-pointer border-red-500 border-2 hover:border-red-700 hover:text-red-700">
                 Hapus Draft
             </button>
             <button type="submit" class="bg-lime-300 hover:bg-lime-700 text-slate-950 font-bold py-2 px-4 cursor-pointer">
@@ -54,15 +56,15 @@
                 <td id="waktu_<?= $task ?>" class="p-5"><?= $t['waktu_dibuat'] ?></td>
                 <td id="status_<?= $task ?>" class="p-5"><?= $t['status'] == 0 ? 'Belum Selesai' : 'Selesai' ?></td>
                 <td class="pr-2 text-right">
-                    <div>
-                        <button onclick="toggleDescription(<?= $task ?>)" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 cursor-pointer">
+                    <div class="flex flex-row">
+                        <button onclick="toggleDescription(<?= $task ?>)" class="text-lime-400 border-lime-400 border-2 hover:text-lime-600 hover:border-lime-600 font-bold py-2 px-4 cursor-pointer">
                             Deskripsi
                         </button>
                         <form action="<?= base_url('update/' . $t['id']) ?>" method="post" class="inline">
                             <?= csrf_field() ?>
                             <input type="hidden" name="_method" value="PUT">
                             <button type="submit" class="mx-2 <?= $t['status'] == 0 ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-500 hover:bg-gray-600' ?> text-white font-bold py-2 px-4 cursor-pointer">
-                                <?= $t['status'] == 0 ? 'Tandai selesai' : 'Tandai belum' ?>
+                                <?= $t['status'] == 0 ? 'Selesai' : 'Belum' ?>
                             </button>
                         </form>
                         <form action="<?= base_url('delete/' . $t['id']) ?>" method="post" class="inline">
