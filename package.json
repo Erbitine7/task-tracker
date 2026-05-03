@@ -2,6 +2,7 @@
   "dependencies": {
     "@tailwindcss/cli": "^4.2.4",
     "tailwind": "^2.3.1",
-    "tailwindcss": "^4.2.4"
+    "tailwindcss": "^4.2.4",
+    "tinymce": "^8.5.0"
   }
 }

@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Tracker</title>
     <link rel="stylesheet" href="<?= base_url('css/output.css') ?>">
+    <script src="<?= base_url('tinymce/tinymce.min.js') ?>" referrerpolicy="origin" crossorigin="anonymous"></script>
+    <script src="<?= base_url('js/scripts.js') ?>"></script>
 </head>
 <body class="bg-slate-950 text-white py-10 px-30">
     <div class="flex justify-between">
