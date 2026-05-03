@@ -4,7 +4,7 @@ tinymce.init({
   selector: '#deskripsi',
   license_key: 'gpl',
   setup: (editor) => {
-    editor.on('change', () => {
+    editor.on('keyup', () => {
       saveDraft();
     });
     editor.on('init', function() {
@@ -18,7 +18,7 @@ tinymce.init({
   resize: false,
 });
 
-tugas.addEventListener('change', function() {
+tugas.addEventListener('keyup', function() {
   saveDraft();
 });
 
@@ -44,4 +44,9 @@ function saveDraft() {
 function removeDraft() {
   console.log('Draft removed');
   localStorage.removeItem('draft');
+}
+
+function toggleDescription(id) {
+  const deskripsi = document.getElementById(`deskripsi_${id}`);
+  deskripsi.classList.toggle('hidden');
 }
