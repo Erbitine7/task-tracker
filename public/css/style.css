@@ -3,3 +3,8 @@
     border-radius: 0 !important;
     flex-grow: 1;
 }
+
+ul, ol {
+    list-style: revert;
+    padding: revert;
+}

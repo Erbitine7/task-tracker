@@ -17,10 +17,13 @@ tinymce.init({
     });
   },
   content_css: window.APP_CONFIG.baseUrl + 'css/output.css',
+  content_style: `ul, ol { list-style: revert; padding: revert; }`,
   skin: 'oxide-dark',
-  body_class: 'bg-slate-900 text-white grow focus:none',
+  body_class: 'bg-slate-900 text-white grow focus:none p-2',
   promotion: false,
   resize: false,
+  plugins: 'lists advlists',
+  toolbar: 'undo redo | bold italic underline | bullist numlist',
 });
 
 tugas.addEventListener('keyup', function() {
