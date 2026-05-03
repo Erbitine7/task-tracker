@@ -1,4 +1,6 @@
 const tugas = document.getElementById('tugas');
+const notification = document.getElementById('notification');
+const notificationText = document.getElementById('notification-text');
 
 tinymce.init({
   selector: '#deskripsi',
@@ -24,6 +26,7 @@ tugas.addEventListener('keyup', function() {
 
 function loadDraft() {
   const draft = JSON.parse(localStorage.getItem('draft'));
+  
   if (draft) {
     console.log('Draft loaded');
     tugas.value = draft.tugas;
@@ -35,6 +38,7 @@ function loadDraft() {
 
 function saveDraft() {
   console.log('Draft saved');
+
   localStorage.setItem('draft', JSON.stringify({
     tugas: tugas.value,
     deskripsi: tinymce.get('deskripsi').getContent(),
@@ -48,7 +52,19 @@ function removeDraft() {
 
 function toggleDescription(id) {
   const deskripsi = document.getElementById(`deskripsi_${id}`);
+
   deskripsi.classList.toggle('hidden');
+}
+
+function showNotification(message) {
+  notificationText.textContent = message;
+  notification.classList.remove('opacity-0');
+  notification.classList.remove('pointer-events-none');
+
+  setTimeout(() => {
+    notification.classList.add('opacity-0');
+    notification.classList.add('pointer-events-none');
+  }, 5000);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -57,13 +73,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const deleted = window.flashData.deleted;
 
   if (created) {
-    alert(created);
+    showNotification(created);
     removeDraft();
-  }
-  if (updated) {
-    alert(updated);
-  }
-  if (deleted) {
-    alert(deleted);
+  } else if (updated) {
+    showNotification(updated);
+  } else if (deleted) {
+    showNotification(deleted);
   }
 });

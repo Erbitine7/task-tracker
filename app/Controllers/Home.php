@@ -18,7 +18,7 @@ class Home extends BaseController
             'deskripsi' => $this->request->getPost('deskripsi'),
             'status' => 0
         ]);
-        return redirect()->to('/')->with('created', 'Tugas berhasil dibuat!');
+        return redirect()->to('/')->with('created', 'Tugas berhasil dibuat');
     }
 
     public function update($id){
@@ -26,7 +26,7 @@ class Home extends BaseController
         $model->update($id, [
             'status' => 1 - $model->find($id)['status']
         ]);
-        return redirect()->to('/')->with('updated', 'Status tugas berhasil diperbarui!');
+        return redirect()->to('/')->with('updated', 'Status berhasil diubah');
     }
 
     public function delete($id){

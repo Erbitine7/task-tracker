@@ -19,11 +19,10 @@
     <script src="<?= base_url('tinymce/tinymce.min.js') ?>" referrerpolicy="origin" crossorigin="anonymous"></script>
 </head>
 <body class="bg-slate-950 text-white flex flex-row justify-between">
-        <!-- <h1 class="text-2xl font-bold ml-5 py-10">Tambah Tugas</h1> -->
     <form action="<?= base_url('create') ?>" method="POST" class="w-1/3 h-screen p-10 flex flex-col sticky top-0">
         <div class="mb-5">
             <label for="tugas" class="block mb-2 text-md font-medium">Tugas</label>
-            <input type="text" id="tugas" name="tugas" onchange="saveDraft()" class="w-full p-2 border bg-gray-800 border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-lime-300">
+            <input type="text" id="tugas" name="tugas" onchange="saveDraft()" class="w-full p-2 border bg-slate-900 border-gray-800 focus:outline-none focus:ring-2">
         </div>
         <div class="mb-5 grow flex flex-col">
             <label for="deskripsi" class="block mb-2 text-md font-medium">Deskripsi</label>
@@ -49,11 +48,11 @@
         <tbody class="bg-slate-900 border-b border-gray-700">
 
             <?php foreach($tugas as $task => $t): ?>
-            <tr id="tugas_<?= $task ?>" class="border-t border-gray-700">
-                <td id="no_<?= $task ?>" class="p-5 text-center w-px <?= $t['status'] == 0 ? '' : 'bg-cyan-300 text-slate-950' ?>"><?= $task + 1 ?></td>
-                <td id="tugas_<?= $task ?>" class="p-5 <?= $t['status'] == 0 ? '' : 'opacity-50' ?>"><?= $t['judul'] ?></td>
-                <td id="waktu_<?= $task ?>" class="p-5 <?= $t['status'] == 0 ? '' : 'opacity-50' ?>"><?= $t['waktu_dibuat'] ?></td>
-                <td id="status_<?= $task ?>" class="p-5 <?= $t['status'] == 0 ? '' : 'opacity-50' ?>"><?= $t['status'] == 0 ? 'Belum Selesai' : 'Selesai' ?></td>
+            <tr id="tugas_<?= $task ?>" class="border-t border-gray-700 <?= $t['status'] == 0 ? '' : 'bg-cyan-950' ?>">
+                <td id="no_<?= $task ?>" class="p-5 text-center w-px"><?= $task + 1 ?></td>
+                <td id="tugas_<?= $task ?>" class="p-5"><?= $t['judul'] ?></td>
+                <td id="waktu_<?= $task ?>" class="p-5"><?= $t['waktu_dibuat'] ?></td>
+                <td id="status_<?= $task ?>" class="p-5"><?= $t['status'] == 0 ? 'Belum Selesai' : 'Selesai' ?></td>
                 <td class="pr-2 text-right">
                     <div>
                         <button onclick="toggleDescription(<?= $task ?>)" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 cursor-pointer">
@@ -76,13 +75,17 @@
                     </div>
                 </td>
             </tr>
-            <tr id="deskripsi_<?= $task ?>" class="hidden <?= $t['status'] == 0 ? '' : 'opacity-50' ?>">
+            <tr id="deskripsi_<?= $task ?>" class="hidden <?= $t['status'] == 0 ? '' : 'bg-cyan-950' ?>">
                 <td class="pl-22 pr-5 pb-5 text-left" colspan="5"><?= $t['deskripsi'] ?></td>
             </tr>
             <?php endforeach; ?>
 
         </tbody>
     </table>
+    <div id="notification" class="fixed top-5 left-1/2 -translate-x-1/2 bg-lime-300 text-slate-950 py-2 px-4 transition duration-300 flex flex-row gap-5 opacity-0 pointer-events-none">
+        <p id="notification-text">Ini notifikasi</p>
+        <button class="cursor-pointer" onclick="this.parentElement.classList.add('hidden')">&#10005;</button>
+    </div>
     <script src="<?= base_url('js/scripts.js') ?>"></script>
 </body>
 </html>
