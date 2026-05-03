@@ -56,14 +56,14 @@
                 <td id="waktu_<?= $task ?>" class="p-5"><?= $t['waktu_dibuat'] ?></td>
                 <td id="status_<?= $task ?>" class="p-5"><?= $t['status'] == 0 ? 'Belum Selesai' : 'Selesai' ?></td>
                 <td class="pr-2 text-right">
-                    <div class="flex flex-row">
+                    <div class="flex flex-row justify-end gap-2">
                         <button onclick="toggleDescription(<?= $task ?>)" class="text-lime-400 border-lime-400 border-2 hover:text-lime-600 hover:border-lime-600 font-bold py-2 px-4 cursor-pointer">
                             Deskripsi
                         </button>
                         <form action="<?= base_url('update/' . $t['id']) ?>" method="post" class="inline">
                             <?= csrf_field() ?>
                             <input type="hidden" name="_method" value="PUT">
-                            <button type="submit" class="mx-2 <?= $t['status'] == 0 ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-500 hover:bg-gray-600' ?> text-white font-bold py-2 px-4 cursor-pointer">
+                            <button type="submit" class="<?= $t['status'] == 0 ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-500 hover:bg-gray-600' ?> text-white font-bold py-2 px-4 cursor-pointer">
                                 <?= $t['status'] == 0 ? 'Selesai' : 'Belum' ?>
                             </button>
                         </form>
